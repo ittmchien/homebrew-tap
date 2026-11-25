@@ -9,4 +9,5 @@ brew install juicetray
 cp -R "$(brew --prefix)/opt/juicetray/Juicetray.app" /Applications/
 ```
 
-The formula builds the app from source on your Mac, so Gatekeeper does not block it.
+The formula installs the prebuilt universal app from the GitHub release (about 3 MB). Homebrew
+downloads it with curl, so it carries no quarantine flag and Gatekeeper does not block it.
