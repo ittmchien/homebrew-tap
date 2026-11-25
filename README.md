@@ -6,7 +6,7 @@ Homebrew formulae for [Juicetray](https://github.com/ittmchien/juicetray).
 brew tap ittmchien/tap
 brew trust ittmchien/tap
 brew install juicetray
-cp -R "$(brew --prefix)/opt/juicetray/Juicetray.app" /Applications/
+open "$(brew --prefix)/opt/juicetray/Juicetray.app"   # choose Move to copy it into Applications
 ```
 
 The formula installs the prebuilt universal app from the GitHub release (about 3 MB). Homebrew
