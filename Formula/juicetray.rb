@@ -3,9 +3,9 @@
 class Juicetray < Formula
   desc "Battery levels of wireless mice, headsets and Bluetooth devices in the menu bar"
   homepage "https://github.com/ittmchien/juicetray"
-  url "https://github.com/ittmchien/juicetray/releases/download/v0.4.1/juicetray-macos-universal.app.zip",
+  url "https://github.com/ittmchien/juicetray/releases/download/v0.4.2/juicetray-macos-universal.app.zip",
       using: :nounzip
-  sha256 "bd82b73c4eec7817613fdecf303b3dc775f921233d4531c3614b7fac6401027d"
+  sha256 "9df2b9a03839900be43609ba30babb3975798f3ea7b4c5a12bfe294bee6c40c8"
   license "GPL-3.0-or-later"
 
   depends_on macos: :ventura
@@ -17,8 +17,9 @@ class Juicetray < Formula
 
   def caveats
     <<~EOS
-      Copy the app into Applications (again after each upgrade), then open it from there:
-        rm -rf /Applications/Juicetray.app && cp -R #{opt_prefix}/Juicetray.app /Applications/
+      Open it once and choose Move to put it in Applications:
+        open "#{opt_prefix}/Juicetray.app"
+      Later updates: Check for updates… → Update now in the app.
     EOS
   end
 
