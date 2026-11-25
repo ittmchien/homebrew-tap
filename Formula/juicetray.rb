@@ -1,33 +1,18 @@
-# Builds Juicetray.app from source, so the app carries no quarantine flag and Gatekeeper
-# does not block it even though it is only ad-hoc signed.
+# Installs the prebuilt universal Juicetray.app from the GitHub release. Homebrew downloads it
+# with curl, so it carries no quarantine flag and Gatekeeper does not block the ad-hoc signed app.
 class Juicetray < Formula
   desc "Battery levels of wireless mice, headsets and Bluetooth devices in the menu bar"
   homepage "https://github.com/ittmchien/juicetray"
-  url "https://github.com/ittmchien/juicetray/archive/refs/tags/v0.4.0.tar.gz"
-  sha256 "9ac7fb2e19e251b1d4ab10ac42f7e83d22481afe2e10cb81e61393d5cc8dbc57"
+  url "https://github.com/ittmchien/juicetray/releases/download/v0.4.1/juicetray-macos-universal.app.zip",
+      using: :nounzip
+  sha256 "bd82b73c4eec7817613fdecf303b3dc775f921233d4531c3614b7fac6401027d"
   license "GPL-3.0-or-later"
-  head "https://github.com/ittmchien/juicetray.git", branch: "dev"
 
-  depends_on "rust" => :build
   depends_on macos: :ventura
 
   def install
-    system "cargo", "install", *std_cargo_args(path: "app")
-
-    # The binary lives inside the app bundle only; a bare `juicetray` on PATH is not needed.
-    contents = prefix/"Juicetray.app/Contents"
-    (contents/"MacOS").install bin/"juicetray"
-    rm_r bin
-    (contents/"Resources").install "packaging/macos/AppIcon.icns"
-    plist = File.read("packaging/macos/Info.plist").gsub("__VERSION__", version.to_s)
-    (contents/"Info.plist").write plist
-    # Same licence files as the release bundle (app, Material Symbols icons, Inter font).
-    licenses = contents/"Resources/licenses"
-    licenses.install "LICENSE"
-    licenses.install "crates/strip-render/assets/icons/LICENSE" => "Material-Symbols-LICENSE"
-    licenses.install "crates/strip-render/assets/OFL.txt" => "Inter-OFL.txt"
-    # Signing the bundle binds Info.plist (Bluetooth usage text) to the binary.
-    system "codesign", "--force", "-s", "-", prefix/"Juicetray.app"
+    # ditto keeps the bundle's code signature and resources intact.
+    system "ditto", "-x", "-k", "juicetray-macos-universal.app.zip", prefix
   end
 
   def caveats
@@ -38,7 +23,8 @@ class Juicetray < Formula
   end
 
   test do
-    assert_path_exists prefix/"Juicetray.app/Contents/MacOS/juicetray"
-    assert_match "Bluetooth", shell_output("#{prefix}/Juicetray.app/Contents/MacOS/juicetray scan")
+    app = prefix/"Juicetray.app"
+    assert_path_exists app/"Contents/MacOS/juicetray"
+    system "codesign", "--verify", app
   end
 end
