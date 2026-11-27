@@ -3,9 +3,9 @@
 class Juicetray < Formula
   desc "Battery levels of wireless mice, headsets and Bluetooth devices in the menu bar"
   homepage "https://github.com/ittmchien/juicetray"
-  url "https://github.com/ittmchien/juicetray/releases/download/v0.4.5/juicetray-macos-universal.app.zip",
+  url "https://github.com/ittmchien/juicetray/releases/download/v0.5.0/juicetray-macos-universal.app.zip",
       using: :nounzip
-  sha256 "e965af9d3582c50649e51c49639acf53a77f89a6aa725aed5f54459073e8b954"
+  sha256 "3487b8049510ee3c7a824c81c8e53ae50389d6bc858f752b9698bac6b52824cc"
   license "GPL-3.0-or-later"
 
   depends_on macos: :ventura
